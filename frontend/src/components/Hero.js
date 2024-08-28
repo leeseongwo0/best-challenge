@@ -96,9 +96,13 @@ export default function Hero() {
               width: { sm: '100%', md: '80%' },
             }}
           >
-            Explore our cutting-edge dashboard, delivering high-quality solutions
-            tailored to your needs. Elevate your experience with top-tier features
-            and services.
+            독립영화 "사라진 인연"은 일상의 비밀스러운 교차로에서 마주치는 예기치 못한 인연을 탐구하는 독창적인 작품입니다.
+            이 영화는 잊혀진 순간들이 현재를 어떻게 변화시킬 수 있는지를 신비롭고도 창의적으로 풀어내며,
+            깊은 감동과 놀라운 반전을 제공합니다.
+            이 특별한 프로젝트가 성공적으로 완성되기 위해서는 여러분의 지원이 필요합니다.
+            후원자님의 소중한 기여는 영화의 제작과 홍보에 큰 힘이 될 것이며,
+            저희가 꿈꾸는 새로운 차원의 이야기를 많은 이들에게 전할 수 있도록 도와줄 것입니다.
+            함께 이 여정을 만들어가며, 감동적인 작품을 세상에 선보일 수 있도록 도와주십시오.
           </Typography>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
@@ -115,7 +119,7 @@ export default function Hero() {
               size="small"
               variant="outlined"
               aria-label="Enter your email address"
-              placeholder="Your email address"
+              placeholder="Supporting Tokens"
               fullWidth
               slotProps={{
                 htmlInput: {
@@ -130,19 +134,15 @@ export default function Hero() {
               size="small"
               sx={{ minWidth: 'fit-content' }}
             >
-              Start now
+              Support
             </Button>
           </Stack>
           <Typography
-            variant="caption"
+            variant="h10"
             color="text.secondary"
             sx={{ textAlign: 'center' }}
           >
-            By clicking &quot;Start now&quot; you agree to our&nbsp;
-            <Link href="#" color="primary">
-              Terms & Conditions
-            </Link>
-            .
+            현재 <span className="highlighted-text">"10ETH"</span>만큼 후원할 수 있습니다.
           </Typography>
         </Stack>
         {/* <StyledBox id="image" /> */}
