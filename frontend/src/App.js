@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
 import './App.css';
-import ConnectWalletButton from './components/ConnectWalletButton';
-import TeamBuildingPage from './pages/TeamBuildingPage';
 import Hero from './components/Hero';
-import Features from './components/Features';
-import Alert from '@mui/material/Alert';
-import CheckIcon from '@mui/icons-material/Check';
+import Button from '@mui/material/Button';
 
 function App() {
   const [selectedPoster, setSelectedPoster] = useState(null);
+  const [thankYouMessage, setThankYouMessage] = useState(false);
 
   const handlePosterClick = (item) => {
-    // 포스터를 클릭하면 해당 포스터의 ID를 상태로 설정
     setSelectedPoster(item);
+    setThankYouMessage(false); // 포스터 클릭 시 메시지 숨기기
   };
 
   const handleButtonClick = (vote) => {
-    // 찬성/반대 버튼 클릭 시 처리할 로직
-    alert(`You voted ${vote} for Poster ${selectedPoster}`);
-    // 클릭 후에는 버튼 그룹을 숨길 수도 있습니다.
-    setSelectedPoster(null);
+    setThankYouMessage(true); // 버튼 클릭 시 메시지 상태 업데이트
+    setSelectedPoster(null); // 버튼 그룹 숨기기
+    alert('감사합니다. 당신의 후원이 인디문화의 발전에 소중한 기여를 했습니다.');
   };
 
   return (
@@ -31,10 +27,6 @@ function App() {
         <h1>DAO 잔고 대시보드</h1>
       </div>
 
-      <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-        4 Proposals created
-      </Alert>
-
       <div className="poster-container">
         {[1, 2, 3, 4].map((item) => (
           <div
@@ -44,10 +36,22 @@ function App() {
           >
             <h2>포스터 {item}</h2>
             <p>여기에 내용을 입력하세요. 포스터 {item}의 설명이 여기에 들어갑니다.</p>
-            {selectedPoster === item && (
+            {selectedPoster === item && !thankYouMessage && (
               <div className="button-group">
-                <button onClick={() => handleButtonClick('찬성')}>찬성</button>
-                <button onClick={() => handleButtonClick('반대')}>반대</button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleButtonClick('찬성')}
+                >
+                  찬성
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleButtonClick('반대')}
+                >
+                  반대
+                </Button>
               </div>
             )}
           </div>

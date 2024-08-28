@@ -3,40 +3,30 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-
 import { visuallyHidden } from '@mui/utils';
-import { styled } from '@mui/material/styles';
 
-const StyledBox = styled('div')(({ theme }) => ({
-  alignSelf: 'center',
-  width: '100%',
-  height: 400,
-  marginTop: theme.spacing(8),
-  borderRadius: theme.shape.borderRadius,
-  outline: '6px solid',
-  outlineColor: 'hsla(220, 25%, 80%, 0.2)',
-  border: '1px solid',
-  borderColor: theme.palette.grey[200],
-  boxShadow: '0 0 12px 8px hsla(220, 25%, 80%, 0.2)',
-  backgroundImage: `url(${'/static/screenshots/material-ui/getting-started/templates/dashboard.jpg'})`,
-  backgroundSize: 'cover',
-  [theme.breakpoints.up('sm')]: {
-    marginTop: theme.spacing(10),
-    height: 700,
-  },
-  ...theme.applyStyles('dark', {
-    boxShadow: '0 0 24px 12px hsla(210, 100%, 25%, 0.2)',
-    backgroundImage: `url(${'/static/screenshots/material-ui/getting-started/templates/dashboard-dark.jpg'})`,
-    outlineColor: 'hsla(220, 20%, 42%, 0.1)',
-    borderColor: theme.palette.grey[700],
-  }),
-}));
+const Hero = () => {
+  const [amount, setAmount] = React.useState('');
+  const [inputValue, setInputValue] = React.useState('');
 
-export default function Hero() {
+  const handleSupportClick = () => {
+    // 입력 필드를 비우고 알림 창을 표시
+    setAmount(inputValue);
+    setInputValue('');
+    alert('감사합니다. 당신의 후원이 인디문화의 발전에 소중한 기여를 했습니다.');
+  };
+
+  const handleInputChange = (e) => {
+    // 입력 필드에서 숫자만 허용
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {  // 숫자만 허용
+      setInputValue(value);
+    }
+  };
+
   return (
     <Box
       id="hero"
@@ -110,29 +100,27 @@ export default function Hero() {
             useFlexGap
             sx={{ pt: 2, width: { xs: '100%', sm: '350px' } }}
           >
-            <InputLabel htmlFor="email-hero" sx={visuallyHidden}>
-              Email
+            <InputLabel htmlFor="amount-hero" sx={visuallyHidden}>
+              Amount
             </InputLabel>
             <TextField
-              id="email-hero"
+              id="amount-hero"
               hiddenLabel
               size="small"
               variant="outlined"
-              aria-label="Enter your email address"
-              placeholder="Supporting Tokens"
+              aria-label="Enter the amount"
+              placeholder="Enter amount"
               fullWidth
-              slotProps={{
-                htmlInput: {
-                  autoComplete: 'off',
-                  'aria-label': 'Enter your email address',
-                },
-              }}
+              value={inputValue}
+              onChange={handleInputChange}
             />
             <Button
               variant="contained"
               color="primary"
               size="small"
               sx={{ minWidth: 'fit-content' }}
+              onClick={handleSupportClick}
+              disabled={!inputValue} // 빈 값이면 버튼 비활성화
             >
               Support
             </Button>
@@ -145,8 +133,9 @@ export default function Hero() {
             현재 <span className="highlighted-text">"10ETH"</span>만큼 후원할 수 있습니다.
           </Typography>
         </Stack>
-        {/* <StyledBox id="image" /> */}
       </Container>
     </Box>
   );
-}
+};
+
+export default Hero;
