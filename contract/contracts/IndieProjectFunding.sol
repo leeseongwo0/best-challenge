@@ -9,14 +9,14 @@ contract IndieProjectFunding {
 
     struct ProjectDAO {
         address teamAccount;
-        GovernanceVault vault;  
+        GovernanceVault vault;
         mapping(address => Supporter) supporters;
         address creator;
         uint proposalCount;
         mapping(uint => Proposal) proposals;
     }
 
-    struct GovernanceVault {  
+    struct GovernanceVault {
         uint ethBalance;
         uint GTBalance;
     }
@@ -36,31 +36,23 @@ contract IndieProjectFunding {
         mapping(address => bool) voters;
     }
 
-    IndieProject[] public projects;
+    mapping(uint => IndieProject) private projects;
+    uint public projectCount;
 
     function createProject(address _teamAccount, address _creator) public {
-        ProjectDAO memory newDAO = ProjectDAO({
-            teamAccount: _teamAccount,
-            vault: GovernanceVault({  
-                ethBalance: 0,
-                GTBalance: 0
-            }),
-            creator: _creator,
-            proposalCount: 0
-        });
+        projectCount++;
+        ProjectDAO storage newDAO = projects[projectCount].dao;
+        newDAO.teamAccount = _teamAccount;
+        newDAO.creator = _creator;
 
-        IndieProject memory newProject = IndieProject({
-            totalGT: 0,
-            dao: newDAO
-        });
-
-        projects.push(newProject);
+        IndieProject storage newProject = projects[projectCount];
+        newProject.totalGT = 0;
     }
 
     function startFunding(uint projectIndex, uint _requiredEth) public {
         IndieProject storage project = projects[projectIndex];
         project.totalGT = _requiredEth * 10;
-        project.dao.vault.GTBalance = project.totalGT;  
+        project.dao.vault.GTBalance = project.totalGT;
     }
 
     function contribute(uint projectIndex) public payable {
@@ -71,19 +63,19 @@ contract IndieProjectFunding {
         uint GTAmount = msg.value;
         project.dao.supporters[msg.sender].GTBalance += GTAmount;
 
-        project.dao.vault.ethBalance += msg.value;  
-        }
+        project.dao.vault.ethBalance += msg.value;
+    }
 
     function propose(uint projectIndex, string memory proposalTitle, uint _amount) public {
         IndieProject storage project = projects[projectIndex];
-        //require(msg.sender == project.dao.creator, "Only the creator can propose");
+        require(msg.sender == project.dao.creator, "Only the creator can propose");
 
-        Proposal storage newProposal = project.dao.proposals[project.dao.proposalCount];
-        newProposal.title = proposalTitle;
-        newProposal.amount = _amount;
-        newProposal.endTime = block.timestamp + 1 weeks;
-        newProposal.executed = false;
-        
+        uint proposalIndex = project.dao.proposalCount;
+        project.dao.proposals[proposalIndex].title = proposalTitle;
+        project.dao.proposals[proposalIndex].amount = _amount;
+        project.dao.proposals[proposalIndex].endTime = block.timestamp + 1 weeks;
+        project.dao.proposals[proposalIndex].executed = false;
+
         project.dao.proposalCount++;
     }
 
@@ -92,7 +84,7 @@ contract IndieProjectFunding {
         Proposal storage proposal = project.dao.proposals[proposalIndex];
         
         require(block.timestamp < proposal.endTime, "Voting period has ended");
-        //require(project.dao.supporters[msg.sender].GTBalance > 0, "You are not a supporter");
+        require(project.dao.supporters[msg.sender].GTBalance > 0, "You are not a supporter");
         require(!proposal.voters[msg.sender], "You have already voted");
         
         if (approve) {
@@ -112,11 +104,29 @@ contract IndieProjectFunding {
         require(!proposal.executed, "Proposal has already been executed");
         
         if (proposal.yesVotes > proposal.noVotes) {
-            require(proposal.amount <= project.dao.vault.ethBalance, "Not enough funds in governance vault"); 
+            require(proposal.amount <= project.dao.vault.ethBalance, "Not enough funds in governance vault");
             payable(project.dao.teamAccount).transfer(proposal.amount);
-            project.dao.vault.ethBalance -= proposal.amount;  
+            project.dao.vault.ethBalance -= proposal.amount;
         }
         
         proposal.executed = true;
+    }
+
+    // Custom getter function for project details
+    function getProject(uint projectIndex) public view returns (
+        uint totalGT,
+        address teamAccount,
+        uint ethBalance,
+        uint GTBalance,
+        address creator
+    ) {
+        IndieProject storage project = projects[projectIndex];
+        return (
+            project.totalGT,
+            project.dao.teamAccount,
+            project.dao.vault.ethBalance,
+            project.dao.vault.GTBalance,
+            project.dao.creator
+        );
     }
 }
