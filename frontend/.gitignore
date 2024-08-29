@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Ignore the contract address file
+/src/contracts/IndieProjectFunding-address.json
+
+# Ignore the ABI file
+/src/contracts/IndieProjectFunding.json
