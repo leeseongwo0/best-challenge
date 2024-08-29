@@ -12,10 +12,10 @@ function App() {
 
   // 포스터 데이터 배열
   const posters = [
-    { id: 1, name: 'Insoma', imageUrl: 'https://images.squarespace-cdn.com/content/v1/5006f9a984ae2a41e73ba834/1395792354190-01TPJBZQKPC4CDMA430X/Insoma_Profile_Poster_24x36_Yellow_FullCredits.jpg?format=1000w', description: '희망금액 : 1ETH' },
-    { id: 2, name: 'NomadLand', imageUrl: 'https://i.pinimg.com/564x/7a/44/17/7a441783fe4fe286ff9633b6f5befbf9.jpg', description: '희망금액 : 3ETH' },
-    { id: 3, name: 'The Dig', imageUrl: 'https://i.pinimg.com/564x/03/65/ea/0365ea06ab50757e35c204cace62b0e2.jpg', description: '희망금액 : 2ETH' },
-    { id: 4, name: 'The Turin Horse', imageUrl: 'https://i.pinimg.com/564x/0d/a5/65/0da5658bd63940a2385bc98501939bfe.jpg', description: '희망금액 : 0.5ETH' }
+    { id: 1, name: 'Insoma', imageUrl: 'https://images.squarespace-cdn.com/content/v1/5006f9a984ae2a41e73ba834/1395792354190-01TPJBZQKPC4CDMA430X/Insoma_Profile_Poster_24x36_Yellow_FullCredits.jpg?format=1000w', description: '희망금액 : 1ETH'},
+    { id: 2, name: 'NomadLand', imageUrl: 'https://i.pinimg.com/564x/7a/44/17/7a441783fe4fe286ff9633b6f5befbf9.jpg', description: '희망금액 : 3ETH'},
+    { id: 3, name: 'The Dig', imageUrl: 'https://i.pinimg.com/564x/03/65/ea/0365ea06ab50757e35c204cace62b0e2.jpg', description: '희망금액 : 2ETH'},
+    { id: 4, name: 'The Turin Horse', imageUrl: 'https://i.pinimg.com/564x/0d/a5/65/0da5658bd63940a2385bc98501939bfe.jpg', description: '희망금액 : 0.5ETH'}
   ];
 
   const handlePosterClick = (id) => {
@@ -33,7 +33,7 @@ function App() {
     setSelectedPoster(null);
 
     if (vote === '찬성') {
-      alert('감사합니다. 당신의 후원이 인디문화의 발전에 소중한 기여를 했습니다.');
+      alert('후원금 분기 예산 사용 계획에 동의하셨습니다.');
     }
   };
 
@@ -53,16 +53,23 @@ function App() {
 
       <div className="heading-container">
         <div className="heading-box vertical">
-          <div className="heading-box-item" onClick={handleHeadingBoxClick}>
-            <h2>Quarterly Budget Plan</h2>
-          </div>
+        <div className="heading-box-item no-click">
+          <h2>Quarterly Budget Plan</h2>
+        </div>
           <div className="heading-box-item" onClick={handleHeadingBoxClick}>
             <h2>계획서 항목 2</h2>
             <p>여기에 항목 2에 대한 내용을 입력하세요.</p>
           </div>
-          <div className="heading-box-item" onClick={handleHeadingBoxClick}>
+          <div className="heading-box-item">
             <h2>계획서 항목 3</h2>
             <p>여기에 항목 3에 대한 내용을 입력하세요.</p>
+            {/* > 더보기 버튼 추가 */}
+          </div>
+          <div
+              className="more-info"
+              onClick={() => handleMoreInfoClick(3)}
+            >
+              > 더보기
           </div>
         </div>
         <div className="heading-box">
@@ -131,12 +138,6 @@ function App() {
           </div>
         ))}
       </div>
-      
-      {thankYouMessage && (
-        <div className="thank-you-message">
-          <p>감사합니다. 당신의 후원이 인디문화의 발전에 소중한 기여를 했습니다.</p>
-        </div>
-      )}
     </div>
   );
 }

@@ -54,9 +54,17 @@
   text-align: center;
   cursor: pointer;
   position: relative;
-  /* Ensure button visibility */
-  z-index: 1; 
   background-color: #fff;
+}
+
+.heading-box-item.no-click {
+  cursor: default; /* 기본 커서로 변경 */
+  background-color: #fff; /* 배경색이 변경되지 않도록 설정 */
+}
+
+.heading-box-item.no-click:hover {
+  background-color: #fff; /* 호버 시 배경색이 변경되지 않도록 설정 */
+  box-shadow: none; /* 그림자도 제거 */
 }
 
 .heading-box-item h2 {
@@ -154,6 +162,7 @@
   color: #007bff;
   cursor: pointer;
   font-family: 'NanumSquareNeoBold', sans-serif;
+  font-size: 1rem; /* 버튼의 글자 크기 */
 }
 
 .more-info:hover {
@@ -164,17 +173,15 @@
   display: flex;
   justify-content: space-around;
   margin-top: 10px;
-  /* Add padding to ensure buttons are visible */
-  padding: 10px;
+  padding: 10px; /* 버튼이 보이도록 padding 추가 */
 }
 
 .button-group .MuiButton-root {
   font-size: 0.875rem;
   padding: 6px 16px;
-  min-width: 80px; /* Ensure buttons are of a minimum size */
-  /* Ensure buttons are on top */
+  min-width: 80px; /* 버튼 최소 크기 보장 */
   position: relative;
-  z-index: 1; 
+  z-index: 1; /* 버튼이 보이도록 설정 */
 }
 
 @media (max-width: 768px) {
