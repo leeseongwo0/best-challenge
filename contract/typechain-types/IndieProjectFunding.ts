@@ -40,7 +40,7 @@ export interface IndieProjectFundingInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "createProject",
-    values: [AddressLike, AddressLike]
+    values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "executeProposal",
@@ -139,7 +139,7 @@ export interface IndieProjectFunding extends BaseContract {
   >;
 
   createProject: TypedContractMethod<
-    [_teamAccount: AddressLike, _creator: AddressLike],
+    [_creator: AddressLike],
     [void],
     "nonpayable"
   >;
@@ -193,11 +193,7 @@ export interface IndieProjectFunding extends BaseContract {
   ): TypedContractMethod<[projectIndex: BigNumberish], [void], "payable">;
   getFunction(
     nameOrSignature: "createProject"
-  ): TypedContractMethod<
-    [_teamAccount: AddressLike, _creator: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[_creator: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "executeProposal"
   ): TypedContractMethod<

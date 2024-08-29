@@ -16,9 +16,9 @@ describe("IndieProjectFunding Contract", function () {
 
     console.log("Contract deployed");
 
-    // 기본 프로젝트 생성
-    await contract.createProject(addr1.address, owner.address);
-    console.log("Project created with teamAccount:", addr1.address, "and creator:", owner.address);
+    // 기본 프로젝트 생성 (팀 계좌 주소 제거, 오직 creator 주소만 사용)
+    await contract.createProject(owner.address);
+    console.log("Project created with creator:", owner.address);
 
     await contract.startFunding(1, 10);  // 1번 프로젝트로 설정 (프로젝트 인덱스가 1부터 시작)
     console.log("Funding started for project 1 with required GT:", 10);

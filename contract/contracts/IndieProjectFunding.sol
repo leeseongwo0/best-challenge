@@ -26,6 +26,7 @@ contract IndieProjectFunding {
     }
 
     struct Supporter {
+        address userAddress;
         uint GTBalance;
         uint ethBalance;
     }
@@ -42,7 +43,7 @@ contract IndieProjectFunding {
     mapping(uint => IndieProject) private projects;
     uint public projectCount;
 
-    function createProject(address _teamAccount, address _creator) public {
+    function createProject(address _creator) public {
         projectCount++;
         ProjectDAO storage newDAO = projects[projectCount].dao;
         newDAO.teamAccount.ethBalance = 0; // 팀 계좌의 초기 잔액 설정
