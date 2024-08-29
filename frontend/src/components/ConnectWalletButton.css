@@ -1,0 +1,32 @@
+.connect-wallet-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  font-family: 'NanumSquareNeoBold', sans-serif;
+  padding: 10px; /* 여백을 추가하여 버튼과 텍스트가 잘리지 않도록 합니다 */
+  box-sizing: border-box; /* padding을 포함하여 요소의 크기를 계산 */
+}
+
+.connect-wallet-button p {
+  margin: 0;
+  text-align: center; /* 가운데 정렬 */
+  word-break: break-all; /* 긴 문자열을 줄바꿈 */
+  white-space: pre-wrap; /* 줄바꿈을 허용 */
+  overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
+  width: 200px; /* 너비를 설정하여 텍스트가 영역을 벗어나지 않도록 함 */
+}
+
+.connect-wallet-button button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.connect-wallet-button button:hover {
+  background-color: #0056b3;
+}

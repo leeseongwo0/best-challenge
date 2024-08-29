@@ -1,9 +1,11 @@
+// src/App.js
 import React, { useState } from 'react';
 import './App.css';
 import Hero from './components/Hero';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
+import ConnectWalletButton from './components/ConnectWalletButton';
 
 function App() {
   const [selectedPoster, setSelectedPoster] = useState(null);
@@ -49,13 +51,16 @@ function App() {
 
   return (
     <div className="App">
+      <div className="fixed-buttons">
+        <ConnectWalletButton /> {/* Place the ConnectWalletButton here */}
+        {/* Removed Support button */}
+      </div>
       <Hero />
-
       <div className="heading-container">
         <div className="heading-box vertical">
-        <div className="heading-box-item no-click">
-          <h2>Quarterly Budget Plan</h2>
-        </div>
+          <div className="heading-box-item no-click">
+            <h2>Quarterly Budget Plan</h2>
+          </div>
           <div className="heading-box-item" onClick={handleHeadingBoxClick}>
             <h2>계획서 항목 2</h2>
             <p>여기에 항목 2에 대한 내용을 입력하세요.</p>
