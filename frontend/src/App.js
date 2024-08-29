@@ -12,21 +12,25 @@ function App() {
 
   // 포스터 데이터 배열
   const posters = [
-    { id: 1, name: 'Insoma', imageUrl: 'https://images.squarespace-cdn.com/content/v1/5006f9a984ae2a41e73ba834/1395792354190-01TPJBZQKPC4CDMA430X/Insoma_Profile_Poster_24x36_Yellow_FullCredits.jpg?format=1000w'},
-    { id: 2, name: 'NomadLand', imageUrl: 'https://i.pinimg.com/564x/7a/44/17/7a441783fe4fe286ff9633b6f5befbf9.jpg'},
-    { id: 3, name: 'The Dig', imageUrl: 'https://i.pinimg.com/564x/03/65/ea/0365ea06ab50757e35c204cace62b0e2.jpg'},
-    { id: 4, name: 'The Turin Horse', imageUrl: 'https://i.pinimg.com/564x/0d/a5/65/0da5658bd63940a2385bc98501939bfe.jpg'}
+    { id: 1, name: 'Insoma', imageUrl: 'https://images.squarespace-cdn.com/content/v1/5006f9a984ae2a41e73ba834/1395792354190-01TPJBZQKPC4CDMA430X/Insoma_Profile_Poster_24x36_Yellow_FullCredits.jpg?format=1000w', description: '희망금액 : 1ETH' },
+    { id: 2, name: 'NomadLand', imageUrl: 'https://i.pinimg.com/564x/7a/44/17/7a441783fe4fe286ff9633b6f5befbf9.jpg', description: '희망금액 : 3ETH' },
+    { id: 3, name: 'The Dig', imageUrl: 'https://i.pinimg.com/564x/03/65/ea/0365ea06ab50757e35c204cace62b0e2.jpg', description: '희망금액 : 2ETH' },
+    { id: 4, name: 'The Turin Horse', imageUrl: 'https://i.pinimg.com/564x/0d/a5/65/0da5658bd63940a2385bc98501939bfe.jpg', description: '희망금액 : 0.5ETH' }
   ];
 
-  const handlePosterClick = (item) => {
-    setSelectedPoster(item);
-    setThankYouMessage(false); // 포스터 클릭 시 메시지 숨기기
-    setMoreInfoClicked(null); // "더 알아보기" 클릭 상태 초기화
+  const handlePosterClick = (id) => {
+    if (selectedPoster === id) {
+      setSelectedPoster(null);
+    } else {
+      setSelectedPoster(id);
+    }
+    setThankYouMessage(false);
+    setMoreInfoClicked(null);
   };
 
   const handleButtonClick = (vote) => {
-    setThankYouMessage(true); // 버튼 클릭 시 메시지 상태 업데이트
-    setSelectedPoster(null); // 버튼 그룹 숨기기
+    setThankYouMessage(true);
+    setSelectedPoster(null);
 
     if (vote === '찬성') {
       alert('감사합니다. 당신의 후원이 인디문화의 발전에 소중한 기여를 했습니다.');
@@ -35,7 +39,12 @@ function App() {
 
   const handleMoreInfoClick = (id) => {
     setMoreInfoClicked(id);
-    setSelectedPoster(null); // "더 알아보기" 클릭 시 포스터 선택 해제
+    setSelectedPoster(null);
+  };
+
+  const handleHeadingBoxClick = () => {
+    // 새 탭에서 proposal.html 열기
+    window.open('/proposal.html', '_blank');
   };
 
   return (
@@ -43,12 +52,38 @@ function App() {
       <Hero />
 
       <div className="heading-container">
-        <h1>분기 예산 계획서</h1>
-        <h1>DAO 잔고 대시보드</h1>
+        <div className="heading-box vertical">
+          <div className="heading-box-item" onClick={handleHeadingBoxClick}>
+            <h2>Quarterly Budget Plan</h2>
+          </div>
+          <div className="heading-box-item" onClick={handleHeadingBoxClick}>
+            <h2>계획서 항목 2</h2>
+            <p>여기에 항목 2에 대한 내용을 입력하세요.</p>
+          </div>
+          <div className="heading-box-item" onClick={handleHeadingBoxClick}>
+            <h2>계획서 항목 3</h2>
+            <p>여기에 항목 3에 대한 내용을 입력하세요.</p>
+          </div>
+        </div>
+        <div className="heading-box">
+          <h1>DAO 잔고 대시보드</h1>
+          <p>추가 설명 두 줄을 여기에 입력할 수 있습니다.</p>
+        </div>
       </div>
 
       <div className="alert-container">
-        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+        <Alert
+          icon={<CheckIcon fontSize="inherit" />}
+          severity="info"
+          sx={{
+            backgroundColor: '#1976d2',
+            color: '#ffffff',
+            fontSize: '1.25rem',
+            '& .MuiAlert-icon': {
+              color: '#ffffff',
+            },
+          }}
+        >
           4 Proposals created
         </Alert>
       </div>
@@ -66,6 +101,7 @@ function App() {
               className="poster-image"
             />
             <h2 className="poster-title">{poster.name}</h2>
+            <p className="poster-description">{poster.description}</p>
             {selectedPoster === poster.id && !thankYouMessage && !moreInfoClicked && (
               <div className="button-group">
                 <Button
@@ -95,6 +131,12 @@ function App() {
           </div>
         ))}
       </div>
+      
+      {thankYouMessage && (
+        <div className="thank-you-message">
+          <p>감사합니다. 당신의 후원이 인디문화의 발전에 소중한 기여를 했습니다.</p>
+        </div>
+      )}
     </div>
   );
 }

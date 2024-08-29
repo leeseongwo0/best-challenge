@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>후원금 사용 Proposal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+    }
+    .container {
+      width: 80%;
+      max-width: 900px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      border-radius: 8px;
+    }
+    .header {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .content p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .button-group {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .button-group button {
+      background-color: #1976d2;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 0 10px;
+    }
+    .button-group button.secondary {
+      background-color: #d32f2f;
+    }
+    .button-group button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">후원금 사용 Proposal</div>
+    <div class="content">
+      <p>여기에 Proposal에 대한 자세한 내용을 입력하세요.</p>
+    </div>
+    <div class="button-group">
+      <button onclick="handleVote('찬성')">찬성</button>
+      <button class="secondary" onclick="handleVote('반대')">반대</button>
+    </div>
+  </div>
+
+  <script>
+    function handleVote(vote) {
+      if (vote === '찬성') {
+        alert('후원금 분기 사용 계획에 동의하셨습니다.');
+      } else if (vote === '반대') {
+        alert('후원금 분기 사용 계획에 반대하셨습니다.');
+      }
+      
+      // 알림창이 닫힌 후 1초 후에 현재 탭 닫기
+      setTimeout(() => {
+        window.close();
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

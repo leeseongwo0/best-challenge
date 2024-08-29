@@ -1,4 +1,13 @@
-/* 전체 페이지 중앙 정렬 */
+/* App.css */
+
+@font-face {
+  font-family: 'NanumSquareNeoBold';
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot);
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot?#iefix) format('embedded-opentype'),
+       url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff) format('woff'),
+       url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.ttf) format('truetype');
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -15,24 +24,66 @@
   width: 100%;
 }
 
-.dashboard-container {
+.heading-container {
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: space-between;
   margin: 20px 0;
 }
 
-.dashboard-box {
+.heading-box {
   flex: 1;
   border: 1px solid #ccc;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  max-width: 45%;
+  box-sizing: border-box;
+}
+
+.heading-box.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.heading-box-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   text-align: center;
+  cursor: pointer;
+  position: relative;
+  /* Ensure button visibility */
+  z-index: 1; 
+  background-color: #fff;
+}
+
+.heading-box-item h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.heading-box-item p {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.heading-box-item .more-info {
+  text-align: right;
+  margin-top: 10px;
+  color: #007bff;
+  cursor: pointer;
+  font-family: 'NanumSquareNeoBold', sans-serif;
+}
+
+.heading-box-item .more-info:hover {
+  text-decoration: underline;
 }
 
 .alert-container {
-  margin: 20px 0;
+  margin: 40px 0 0 0;
   text-align: center;
 }
 
@@ -48,51 +99,41 @@
 
 .poster {
   flex: 0 0 auto;
-  width: 250px; /* 포스터 너비 조정 */
+  width: 250px;
   border: 1px solid #ccc;
-  padding: 15px; /* 포스터 내부 여백 조정 */
+  padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   position: relative;
 }
 
 .poster-image {
-  width: 100%; /* 포스터 너비에 맞게 조정 */
-  height: 200px; /* 높이 조정 (기존 150px에서 늘림) */
-  object-fit: cover; /* 이미지의 가로 크기에 맞게 조정하며 상하 잘리게 설정 */
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
   border-radius: 8px;
   margin-bottom: 10px;
 }
 
 .poster-title {
-  font-size: 1.2rem; /* 제목 글씨 크기 조정 */
-  margin: 0;
+  font-size: 1.2rem;
+  margin: 10px 0;
 }
 
-.button-group {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.button-group button {
-  padding: 10px 20px;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
+.poster-description {
+  font-family: 'NanumSquareNeoBold', sans-serif;
   font-size: 1rem;
-}
-
-.button-group button:hover {
-  opacity: 0.9;
+  margin: 10px 0;
+  color: #333;
+  line-height: 1.6;
 }
 
 .custom-typography {
   text-align: center;
   font-size: 1.5rem;
+  font-family: 'NanumSquareNeoBold', sans-serif;
 }
 
 .highlighted-text {
@@ -104,6 +145,7 @@
   margin: 20px;
   font-size: 1.25rem;
   color: #4caf50;
+  font-family: 'NanumSquareNeoBold', sans-serif;
 }
 
 .more-info {
@@ -111,8 +153,50 @@
   margin-top: 10px;
   color: #007bff;
   cursor: pointer;
+  font-family: 'NanumSquareNeoBold', sans-serif;
 }
 
 .more-info:hover {
   text-decoration: underline;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  /* Add padding to ensure buttons are visible */
+  padding: 10px;
+}
+
+.button-group .MuiButton-root {
+  font-size: 0.875rem;
+  padding: 6px 16px;
+  min-width: 80px; /* Ensure buttons are of a minimum size */
+  /* Ensure buttons are on top */
+  position: relative;
+  z-index: 1; 
+}
+
+@media (max-width: 768px) {
+  .heading-container {
+    flex-direction: column;
+  }
+
+  .heading-box {
+    margin-bottom: 20px;
+  }
+
+  .poster-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .poster {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+.heading-box-item:hover {
+  background-color: #f0f0f0; /* Hover effect */
 }
