@@ -153,9 +153,9 @@ export interface IndieProjectFunding extends BaseContract {
   getProject: TypedContractMethod<
     [projectIndex: BigNumberish],
     [
-      [bigint, string, bigint, bigint, string] & {
+      [bigint, bigint, bigint, bigint, string] & {
         totalGT: bigint;
-        teamAccount: string;
+        teamEthBalance: bigint;
         ethBalance: bigint;
         GTBalance: bigint;
         creator: string;
@@ -210,9 +210,9 @@ export interface IndieProjectFunding extends BaseContract {
   ): TypedContractMethod<
     [projectIndex: BigNumberish],
     [
-      [bigint, string, bigint, bigint, string] & {
+      [bigint, bigint, bigint, bigint, string] & {
         totalGT: bigint;
-        teamAccount: string;
+        teamEthBalance: bigint;
         ethBalance: bigint;
         GTBalance: bigint;
         creator: string;

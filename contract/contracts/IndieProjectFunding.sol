@@ -8,7 +8,7 @@ contract IndieProjectFunding {
     }
 
     struct ProjectDAO {
-        address teamAccount;
+        TeamAccount teamAccount;
         GovernanceVault vault;
         mapping(address => Supporter) supporters;
         address creator;
@@ -21,6 +21,10 @@ contract IndieProjectFunding {
         uint GTBalance;
     }
 
+    struct TeamAccount {
+        uint ethBalance;
+    }
+
     struct Supporter {
         uint GTBalance;
         uint ethBalance;
@@ -31,7 +35,6 @@ contract IndieProjectFunding {
         uint amount;
         uint yesVotes;
         uint noVotes;
-        uint endTime;
         bool executed;
         mapping(address => bool) voters;
     }
@@ -42,7 +45,7 @@ contract IndieProjectFunding {
     function createProject(address _teamAccount, address _creator) public {
         projectCount++;
         ProjectDAO storage newDAO = projects[projectCount].dao;
-        newDAO.teamAccount = _teamAccount;
+        newDAO.teamAccount.ethBalance = 0; // 팀 계좌의 초기 잔액 설정
         newDAO.creator = _creator;
 
         IndieProject storage newProject = projects[projectCount];
@@ -70,20 +73,16 @@ contract IndieProjectFunding {
         IndieProject storage project = projects[projectIndex];
         require(msg.sender == project.dao.creator, "Only the creator can propose");
 
-        uint proposalIndex = project.dao.proposalCount;
+        uint proposalIndex = project.dao.proposalCount++;
         project.dao.proposals[proposalIndex].title = proposalTitle;
         project.dao.proposals[proposalIndex].amount = _amount;
-        project.dao.proposals[proposalIndex].endTime = block.timestamp + 1 weeks;
         project.dao.proposals[proposalIndex].executed = false;
-
-        project.dao.proposalCount++;
     }
 
     function vote(uint projectIndex, uint proposalIndex, bool approve) public {
         IndieProject storage project = projects[projectIndex];
         Proposal storage proposal = project.dao.proposals[proposalIndex];
         
-        require(block.timestamp < proposal.endTime, "Voting period has ended");
         require(project.dao.supporters[msg.sender].GTBalance > 0, "You are not a supporter");
         require(!proposal.voters[msg.sender], "You have already voted");
         
@@ -100,12 +99,11 @@ contract IndieProjectFunding {
         IndieProject storage project = projects[projectIndex];
         Proposal storage proposal = project.dao.proposals[proposalIndex];
         
-        require(block.timestamp >= proposal.endTime, "Voting period has not ended");
         require(!proposal.executed, "Proposal has already been executed");
         
         if (proposal.yesVotes > proposal.noVotes) {
             require(proposal.amount <= project.dao.vault.ethBalance, "Not enough funds in governance vault");
-            payable(project.dao.teamAccount).transfer(proposal.amount);
+            project.dao.teamAccount.ethBalance += proposal.amount; // 팀 계좌 잔액 증가
             project.dao.vault.ethBalance -= proposal.amount;
         }
         
@@ -115,7 +113,7 @@ contract IndieProjectFunding {
     // Custom getter function for project details
     function getProject(uint projectIndex) public view returns (
         uint totalGT,
-        address teamAccount,
+        uint teamEthBalance, // 팀 계좌 잔액 반환
         uint ethBalance,
         uint GTBalance,
         address creator
@@ -123,7 +121,7 @@ contract IndieProjectFunding {
         IndieProject storage project = projects[projectIndex];
         return (
             project.totalGT,
-            project.dao.teamAccount,
+            project.dao.teamAccount.ethBalance, // 수정된 부분
             project.dao.vault.ethBalance,
             project.dao.vault.GTBalance,
             project.dao.creator
